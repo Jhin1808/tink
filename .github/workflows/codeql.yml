@@ -35,7 +35,7 @@ jobs:
 
     - name: Setup Go (only for Go language)
       if: matrix.language == 'go'
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v3
       with:
         go-version: '^1.16' # Specify the Go version
 
@@ -45,12 +45,26 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      uses: github/codeql-action/autobuild@v3
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v4.1.4
+      uses: github/codeql-action/analyze@v3
+    - name: Bundle CodeQL Database
+    
+      run: codeql database bundle /path/to/codeql-database --output=/path/to/codeql-database.zip
+      # Add other necessary steps or options
+
+    - name: Upload CodeQL Database Artifact
+      uses: actions/upload-artifact@v4.3.1
+      with:
+        name: codeql-database
+        path: /path/to/codeql-database.zip
+        if-no-files-found: warn
+        retention-days: 7
+        compression-level: 6
+        overwrite: true
+
+      
       
        
           

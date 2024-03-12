@@ -47,6 +47,13 @@ jobs:
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
 
+    - name: Build Go Code (only for Go language)
+      if: matrix.language == 'go'
+      run: |
+        go get -v -t -d ./...
+        go build -v ./...
+
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
     

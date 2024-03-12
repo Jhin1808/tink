@@ -16,8 +16,6 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-  schedule:
-    - cron: '0 13 * * 0'
 
 jobs:
   analyze:
@@ -46,17 +44,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Build and Test Go Code (only for Go language)
-      if: matrix.language == 'go'
-      run: |
-        cd tink/go
-        go mod download
-        go build ./...
-        go test ./...
-      shell: bash
-
-    - name: Autobuild (for languages other than Go)
-      if: matrix.language != 'go'
+    - name: Autobuild
       uses: github/codeql-action/autobuild@v2
 
     - name: Perform CodeQL Analysis

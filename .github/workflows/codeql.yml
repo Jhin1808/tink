@@ -13,9 +13,9 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [master, 1.5]
+    branches: [master]
   pull_request:
-    branches: [master, 1.5]
+    branches: [master]
   schedule:
     - cron: '0 13 * * 0'
 
@@ -61,3 +61,8 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v4.1.4
+      
+       
+          

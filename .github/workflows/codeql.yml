@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['go', 'python',]
+        language: ['go', 'python', 'javascript']
 
     steps:
     - name: Checkout repository
@@ -46,11 +46,14 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    - name: Build Go Code (only for Go language)
+    - name: Build and Test Go Code (only for Go language)
       if: matrix.language == 'go'
       run: |
-        go get -v -t -d ./...
-        go build -v ./...
+        cd tink/go
+        go mod download
+        go build ./...
+        go test ./...
+      shell: bash
 
     - name: Autobuild (for languages other than Go)
       if: matrix.language != 'go'
